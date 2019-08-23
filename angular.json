@@ -124,6 +124,41 @@
           }
         }
       }
+    },
+    "fav-combo": {
+      "projectType": "library",
+      "root": "projects/fav-combo",
+      "sourceRoot": "projects/fav-combo/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/fav-combo/tsconfig.lib.json",
+            "project": "projects/fav-combo/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/fav-combo/src/test.ts",
+            "tsConfig": "projects/fav-combo/tsconfig.spec.json",
+            "karmaConfig": "projects/fav-combo/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/fav-combo/tsconfig.lib.json",
+              "projects/fav-combo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "favouritable-combo"
 }

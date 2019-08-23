@@ -1,0 +1,19 @@
+<div (blur)="onTouched()" class="fc-dropdown" (clickOutside)="closeDropdown()">
+  <div [class.disabled]="disabled" class="fc-dropdown-btn" (click)="onClick($event)">
+    <input #input type="textbox" (focus)="onFocus()" (input)="onFilterTextChange($event)" class="fc-selection"
+           [readonly]="disabled" (blur)="onBlur()" (keyup)="onKey($event)">
+    <div class="fc-up-down" (click)="toggleOpen($event)">
+      <div [ngClass]="open ? 'fc-dropdown-up' : 'fc-dropdown-down'"></div>
+    </div>
+  </div>
+  <div class="fc-dropdown-list" [hidden]="!open || shownItems().length === 0">
+    <div class="fc-items">
+      <div *ngFor="let item of shownItems();" class="fc-item">
+        <label (click)="onItemClick($event,item)">{{item.text}}</label>
+        <input type="checkbox" [attr.aria-label]="item.text" [checked]="item.favourite" [disabled]="disabled" />
+        <fc-item-check (changes)="onFavouriteChanges()" [item]="item"
+                       [favouriteImage]="favouriteImage" [unfavouriteImage]="unfavouriteImage"></fc-item-check>
+      </div>
+    </div>
+  </div>
+</div>

@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "fav-combo": [
+        "dist/fav-combo"
+      ],
+      "fav-combo/*": [
+        "dist/fav-combo/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

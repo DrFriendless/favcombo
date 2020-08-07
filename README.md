@@ -17,3 +17,6 @@ However as that component was for an entirely different purpose, I have made mas
 
 There are no tests.
 Sorry, I don't understand Angular testing yet.
+
+## How to Build
+

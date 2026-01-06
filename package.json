@@ -1,39 +1,28 @@
 {
-  "name": "favouritable-combo",
-  "version": "0.10.2",
+  "name": "fav-combo",
+  "version": "1.0.0",
+  "license": "ISC",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ng build fav-combo",
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^9.1.12",
-    "@angular/common": "^9.1.12",
-    "@angular/compiler": "^9.1.12",
-    "@angular/core": "^9.1.12",
-    "@angular/forms": "^9.1.12",
-    "@angular/platform-browser": "^9.1.12",
-    "@angular/platform-browser-dynamic": "^9.1.12",
-    "@angular/router": "^9.1.12",
-    "rxjs": "~6.5.5",
-    "tslib": "^1.10.0",
-    "zone.js": "~0.10.3"
+    "@angular/common": "~20.3.6",
+    "@angular/platform-browser": "~20.3.6",
+    "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.12",
-    "@angular-devkit/build-ng-packagr": "^0.901.12",
-    "@angular/cli": "^9.1.12",
-    "@angular/compiler-cli": "^9.1.12",
-    "@angular/language-service": "^9.1.12",
-    "@types/node": "^14.0.27",
-    "codelyzer": "^5.2.2",
-    "ng-packagr": "^9.1.5",
-    "ts-node": "~8.10.2",
-    "tslint": "~5.15.0",
-    "typescript": "~3.8.3"
+    "@angular-devkit/build-angular": "^20.3.6",
+    "@angular/cli": "^20.3.6",
+    "@angular/compiler-cli": "^20.3.6",
+    "@angular/language-service": "^20.3.6",
+    "ng-packagr": "^20.3.2",
+    "typescript": "~5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DrFriendless/favcombo.git"
   }
 }

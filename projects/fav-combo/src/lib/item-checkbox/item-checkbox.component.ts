@@ -4,14 +4,15 @@ import {FCItem} from '../fav-combo.model';
 @Component({
   selector: 'fc-item-check',
   templateUrl: './item-checkbox.component.html',
+  standalone: true,
   styleUrls: ['./item-checkbox.component.css']
 })
 export class ItemCheckboxComponent implements OnChanges, OnInit {
-  @Input() favouriteImage: string | null;
-  @Input() unfavouriteImage: string | null;
-  @Input() item: FCItem;
+  @Input() favouriteImage: string | undefined;
+  @Input() unfavouriteImage: string | undefined;
+  @Input() item!: FCItem;
   @Output() changes = new EventEmitter<FCItem>();
-  private background: string | null = null;
+  background: string | undefined = undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setBackgroundImage();
@@ -29,7 +30,7 @@ export class ItemCheckboxComponent implements OnChanges, OnInit {
     this.setBackgroundImage();
   }
 
-  onItemCheck($event: MouseEvent): void {
+  onItemCheck(ignored: MouseEvent): void {
     this.item.favourite = !this.item.favourite;
     this.setBackgroundImage();
     this.changes.next(this.item);

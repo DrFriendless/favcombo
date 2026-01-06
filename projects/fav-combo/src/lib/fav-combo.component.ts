@@ -1,60 +1,50 @@
 import {
   Component,
-  HostListener,
-  forwardRef,
   Input,
   Output,
-  EventEmitter, OnChanges, SimpleChanges, ViewChild, AfterViewInit
+  EventEmitter, OnChanges, SimpleChanges, ViewChild, AfterViewInit, ElementRef, HostListener
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { FCItem } from './fav-combo.model';
-
-export const DROPDOWN_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => FavComboComponent),
-  multi: true
-};
-const noop = () => {};
+import {NgClass} from "@angular/common";
+import {ItemCheckboxComponent} from "./item-checkbox/item-checkbox.component";
+import {ClickOutsideDirective} from "./click-outside.directive";
 
 @Component({
   selector: 'favouritable-combo',
   templateUrl: './fav-combo.component.html',
   styleUrls: ['./fav-combo.component.scss'],
-  providers: [DROPDOWN_CONTROL_VALUE_ACCESSOR]
+  standalone: true,
+  imports: [
+    NgClass,
+    ItemCheckboxComponent,
+    ClickOutsideDirective
+  ]
 })
-export class FavComboComponent implements ControlValueAccessor, OnChanges, AfterViewInit {
-  @Input() data: Array<FCItem | String> = [];
-  @Input() disabled = false;
-  @Input('favouriteImage') favouriteImage: string | null;
-  @Input('unfavouriteImage') unfavouriteImage: string | null;
+export class FavComboComponent implements OnChanges, AfterViewInit {
+  @Input() data: Array<FCItem | string> = [];
+  @Input() disabled: string | boolean = false;
+  @Input('favouriteImage') favouriteImage!: string;
+  @Input('unfavouriteImage') unfavouriteImage!: string;
   @Output() currentItem = new EventEmitter<FCItem>();
   @Output() favourites = new EventEmitter<FCItem[]>();
-  @ViewChild('input', { static: false }) input;
+  @ViewChild('input', { static: false }) input!: ElementRef;
 
-  chosenItem: FCItem;
+  chosenItem: FCItem | undefined;
   open = false;
-  filterText: string | undefined = undefined;
+  filterText: string = "";
   private items: FCItem[] = [];
   private focused = false;
-
-  setDisabledState(isDisabled: boolean): void {
-    // TODO
-  }
-
-  writeValue(obj: any): void {
-    // TODO
-  }
 
   ngAfterViewInit(): void {
     this.setChosen(this.chosenItem);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.data) {
+    if (changes['data']) {
       console.log(this.data);
       this.items = this.data.map(v => {
-        if (typeof v === 'string') {
-          return { favourite: false, id: v, text: v };
+        if (typeof v === typeof "") {
+          return { favourite: false, id: v.toString(), text: v.toString() };
         } else {
           return v as FCItem;
         }
@@ -63,19 +53,17 @@ export class FavComboComponent implements ControlValueAccessor, OnChanges, After
     if (!this.chosenItem) this.setChosen(this.items[0]);
   }
 
-  private setChosen(item: FCItem): void {
+  private setChosen(item: FCItem | undefined): void {
     console.log("setChosen");
     console.log(item);
     console.log(this.input);
     this.chosenItem = item;
-    if (this.input) this.input.nativeElement.value = this.chosenItem.text;
+    if (this.input) {
+      this.input.nativeElement.value = this.chosenItem?.text || "";
+    }
     this.closeDropdown();
     this.currentItem.emit(item);
   }
-
-  private onTouchedCallback: () => void = noop;
-
-  private onChangeCallback: (_: any) => void = noop;
 
   onFocus() {
     this.focused = true;
@@ -91,19 +79,19 @@ export class FavComboComponent implements ControlValueAccessor, OnChanges, After
     } else if ($event.key === "Enter") {
       const item = this.input.nativeElement.value;
       this.setChosen({ text: item, favourite: false, id: item } as FCItem);
-      this.filterText = null;
+      this.filterText = "";
     }
   }
 
-  onFilterTextChange($event) {
+  onFilterTextChange(ignored: any) {
     this.filterText = this.input.nativeElement.value;
   }
 
-  shownItems() {
+  shownItems(): FCItem[] {
     return this.items.filter(i => FavComboComponent.applyFilter(i, this.filterText));
   }
 
-  static applyFilter(item: FCItem, filter: string): boolean {
+  static applyFilter(item: FCItem, filter: string | undefined): boolean {
     return !(filter && item.text && item.text.toLowerCase().indexOf(filter.toLowerCase()) === -1);
   }
 
@@ -113,28 +101,17 @@ export class FavComboComponent implements ControlValueAccessor, OnChanges, After
 
   onItemClick($event: unknown, item: FCItem) {
     this.setChosen(item);
-    this.filterText = null;
-  }
-
-  // From ControlValueAccessor interface
-  registerOnChange(fn: any) {
-    this.onChangeCallback = fn;
-  }
-
-  // From ControlValueAccessor interface
-  registerOnTouched(fn: any) {
-    this.onTouchedCallback = fn;
+    this.filterText = "";
   }
 
   // Set touched on blur
   @HostListener('blur')
   public onTouched() {
     this.closeDropdown();
-    this.onTouchedCallback();
   }
 
   onClick(evt: MouseEvent) {
-    if (this.disabled) return;
+    if (this.disabled === true || this.disabled === "true") return;
     evt.preventDefault();
     if (this.focused) {
       this.open = true;
@@ -142,7 +119,8 @@ export class FavComboComponent implements ControlValueAccessor, OnChanges, After
     }
   }
 
-  toggleOpen(evt: MouseEvent) {
+  toggleOpen(ignored: MouseEvent) {
+    if (this.disabled === true || this.disabled === "true") return;
     this.open = !this.open;
   }
 

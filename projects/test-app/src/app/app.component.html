@@ -1,0 +1,26 @@
+<h2>Bob Bob Bob</h2>
+<div class="container">
+  <favouritable-combo [data]="data"
+                      [favouriteImage]="'url(../heart_red.svg)'"
+                      [unfavouriteImage]="'url(../heart_empty.svg)'"
+                      (currentItem)="onCurrentItemChange($event)"
+                      (favourites)="onFavouritesChange($event)">
+  </favouritable-combo>
+</div>
+<h2>Intermission</h2>
+<div class="container">
+  <favouritable-combo [data]="data"
+                      [favouriteImage]="'url(../heart_full.svg)'"
+                      [unfavouriteImage]="'url(../heart_empty.svg)'"
+                      (currentItem)="onCurrentItemChange($event)"
+                      (favourites)="onFavouritesChange($event)"
+                      disabled="true">
+  </favouritable-combo>
+</div>
+<h2>The End</h2>
+<style>
+  .container {
+    width: 300px;
+  }
+
+</style>

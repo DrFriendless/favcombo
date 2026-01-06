@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import {FCItem} from '../../projects/fav-combo/src/lib/fav-combo.model';
+import {FCItem, FavComboComponent } from "../../../fav-combo";
 
 @Component({
   selector: 'app-root',
+  imports: [FavComboComponent],
+  standalone: true,
   templateUrl: './app.component.html'
 })
 export class AppComponent {

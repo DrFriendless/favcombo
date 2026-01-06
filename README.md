@@ -1,6 +1,6 @@
 # FavouritableCombo
 
-This is a combo box with favourite items, for Angular 8.
+This is a combo box with favourite items, for Angular 20.
 The user may select from a list of items.
 When the list is expanded, the user may click on items to mark them as favourites.
 The user may enter text to filter the list of items.

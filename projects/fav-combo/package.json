@@ -1,8 +1,8 @@
 {
   "name": "fav-combo",
-  "version": "0.10.1",
+  "version": "1.0.3",
   "peerDependencies": {
-    "@angular/common": "^9.1.11",
-    "@angular/core": "^9.1.11"
+    "@angular/common": "^20.3.6",
+    "@angular/core": "^20.3.6"
   }
 }

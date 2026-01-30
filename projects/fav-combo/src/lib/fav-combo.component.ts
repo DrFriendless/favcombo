@@ -41,7 +41,6 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
-      console.log(this.data);
       this.items = this.data.map(v => {
         if (typeof v === typeof "") {
           return { favourite: false, id: v.toString(), text: v.toString() };
@@ -53,16 +52,16 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
     if (!this.chosenItem) this.setChosen(this.items[0]);
   }
 
-  private setChosen(item: FCItem | undefined): void {
-    console.log("setChosen");
-    console.log(item);
-    console.log(this.input);
-    this.chosenItem = item;
+  public setChosen(item: FCItem | string | undefined): void {
+    if (typeof item === typeof "") {
+      item = this.items.filter(i => i.id === item)[0];
+    }
+    this.chosenItem = item as FCItem | undefined;
     if (this.input) {
       this.input.nativeElement.value = this.chosenItem?.text || "";
     }
     this.closeDropdown();
-    this.currentItem.emit(item);
+    this.currentItem.emit(this.chosenItem);
   }
 
   onFocus() {
@@ -85,6 +84,13 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
 
   onFilterTextChange(ignored: any) {
     this.filterText = this.input.nativeElement.value;
+  }
+
+  calcStyle(item: FCItem): any {
+    if (!item.style) return {};
+    const result: any = {};
+    result[item.style] = true;
+    return result;
   }
 
   shownItems(): FCItem[] {

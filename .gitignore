@@ -6,9 +6,11 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+fav-combo-*.tgz
 
 # dependencies
 /node_modules
+.angular
 
 # profiling files
 chrome-profiler-events*.json

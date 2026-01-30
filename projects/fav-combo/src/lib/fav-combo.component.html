@@ -8,8 +8,8 @@
   </div>
   <div class="fc-dropdown-list" [hidden]="!open || shownItems().length === 0">
     <div class="fc-items">
-      @for (item of shownItems(); track item.id) {
-        <div class="fc-item">
+      @for (item of shownItems(); track item) {
+        <div class="fc-item" [ngClass]="calcStyle(item)">
           <label (click)="onItemClick($event,item)">{{item.text}}</label>
           <input type="checkbox" [attr.aria-label]="item.text" [checked]="item.favourite" [disabled]="disabled" />
           <fc-item-check (changes)="onFavouriteChanges()" [item]="item"

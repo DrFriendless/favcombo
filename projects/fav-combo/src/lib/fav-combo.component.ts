@@ -21,6 +21,7 @@ import {ClickOutsideDirective} from "./click-outside.directive";
   ]
 })
 export class FavComboComponent implements OnChanges, AfterViewInit {
+  readonly QUIET = true;
   @Input() data: Array<FCItem | string> = [];
   @Input() disabled: string | boolean = false;
   @Input('favouriteImage') favouriteImage!: string;
@@ -36,7 +37,7 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
   private focused = false;
 
   ngAfterViewInit(): void {
-    this.setChosen(this.chosenItem);
+    this.setChosen(this.chosenItem, this.QUIET);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -49,10 +50,10 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
         }
       });
     }
-    if (!this.chosenItem) this.setChosen(this.items[0]);
+    if (!this.chosenItem) this.setChosen(this.items[0], this.QUIET);
   }
 
-  public setChosen(item: FCItem | string | undefined): void {
+  public setChosen(item: FCItem | string | undefined, quiet = false): void {
     if (typeof item === typeof "") {
       item = this.items.filter(i => i.id === item)[0];
     }
@@ -61,7 +62,7 @@ export class FavComboComponent implements OnChanges, AfterViewInit {
       this.input.nativeElement.value = this.chosenItem?.text || "";
     }
     this.closeDropdown();
-    this.currentItem.emit(this.chosenItem);
+    if (!quiet) this.currentItem.emit(this.chosenItem);
   }
 
   onFocus() {

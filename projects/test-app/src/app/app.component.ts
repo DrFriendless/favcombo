@@ -20,6 +20,8 @@ export class AppComponent {
   @ViewChild('ro') ro: FavComboComponent | undefined;
 
   onCurrentItemChange($event: FCItem) {
+    console.log("chosen");
+    console.log($event);
     if (!this.data.map(x => x.id).includes($event.id)) {
       this.data = [...this.data, $event];
     }
